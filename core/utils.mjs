@@ -76,3 +76,7 @@ export   function toJSON(str)
         return {}
     }
 }
+
+export function returner(data){
+    
+}

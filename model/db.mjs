@@ -13,16 +13,17 @@ class Db
         this.#connection.connect()
 
     }
-     async allTodos(){
+     allTodos(){
 
+         let data = null  
         try {
-            let data =  await this.#connection.query('SELECT * FROM todos',  async(err, rows, fields) => {
+            this.#connection.query('SELECT * FROM todos',  async(err, rows, fields) => {
                 if (err) {throw err}
                 // console.log('The solution is: ', rows)
-                data = {...rows}
+                data = rows.slice(0);
                 // log(data)
                 // this.#connection.end()
-                // log(data)
+                log(data)
             })
             log(data)
 
