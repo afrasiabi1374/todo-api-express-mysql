@@ -2,8 +2,7 @@ import { Router } from "express";
 import TodoController from "../controllers/TodoController.mjs";
 import { log } from "../core/utils.mjs";
 const route = Router()
-route.post('/add', (req, res)=>{
-    log(11111111111111)
-})
+route.get('/', TodoController.all)
+route.post('/add', TodoController.add)
 
 export default route

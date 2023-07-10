@@ -1,7 +1,6 @@
 import { getEnv, isJSON, log, random, sleep } from "./core/utils.mjs";
 import Express from 'express'
 import route from './routes/route.mjs'
-import mysql from 'mysql'
 class Application
 {
 
