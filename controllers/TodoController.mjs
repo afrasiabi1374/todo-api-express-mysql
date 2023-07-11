@@ -49,10 +49,14 @@ class TodoController extends BaseController
         }
     }
 
-    all(req, res){
+    async all(req, res){
         try {
-             'aaaa'+this.#DbTodo.allTodos()
-            res.status(200).json(this.#DbTodo.allTodos())
+             this.#DbTodo.allTodos().then((result) => {
+                // this.setData(result)
+                res.status(200).json(result)
+            }).catch((err) => {
+                
+            })
         } catch (e) {
             throw e
         }
