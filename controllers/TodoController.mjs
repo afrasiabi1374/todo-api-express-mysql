@@ -25,7 +25,6 @@ class TodoController extends BaseController
             const result = await this.#todoValidation(req)
             log(result)
             if (result.errors.length) {
-                log(85)
                 res.status(402).json({
                     msg: 'please insert value',
                     status: 402
@@ -35,9 +34,11 @@ class TodoController extends BaseController
 
                 const title = await req.body.title
                 const description = await  req.body.description
+                const startAt = await  req.body.startAt
+                const endAt = await  req.body.endAt
                     console.log(title);
 
-                    this.#DbTodo.addTodo(title, description)
+                    this.#DbTodo.addTodo(title, description,startAt, endAt)
                     res.status(201).json({
                         msg: 'todo is added',
                         status: 201
@@ -93,20 +94,29 @@ class TodoController extends BaseController
     }
     async updateTodo(req, res){
         if(!isNaN(req.body.id)){
-            const id = await  req.body.id
-            const title = await  req.body.title
-            const description = await  req.body.description
-            this.#DbTodo.updateTodo(id, title, description).then((resposnse)=>{
-                res.status(200).json({
-                    msg: resposnse,
-                    status: 200
+            const result = await this.#todoValidation(req)
+            if (result.errors.length) {
+                
+                const id = await  req.body.id
+                const title = await  req.body.title
+                const description = await  req.body.description
+                this.#DbTodo.updateTodo(id, title, description).then((resposnse)=>{
+                    res.status(200).json({
+                        msg: resposnse,
+                        status: 200
+                    })
+                }).catch((e)=>{
+                    res.status(404).json({
+                        msg: e,
+                        status: 404
+                    })
                 })
-            }).catch((e)=>{
-                res.status(404).json({
-                    msg: e,
-                    status: 404
+            }else{
+                res.status(402).json({
+                    msg: 'bad request',
+                    status: 402
                 })
-            })
+            }
         }else{
             res.status(400).json({
                 msg: 'bad request',

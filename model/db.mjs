@@ -39,17 +39,17 @@ class Db
            log(error)
        }
     }
-    addTodo(title, description){
+    addTodo(title, description, startAt, endAt){
         try {
 
-             this.#connection.query(`INSERT INTO todos (title,description) VALUES ('${title}','${description}')`, (err, rows, fields) => {
+             this.#connection.query(`INSERT INTO todos (title, description, startAt, endAt) VALUES ('${title}','${description}', '${startAt}','${endAt}')`, (err, rows, fields) => {
                 try {
                     
                     if (err) {throw err}
-                    // console.log('The solution is: ', rows)
+                    console.log('The solution is: ', rows)
                     log(rows)
                 } catch (error) {
-                    
+                    throw error
                 }
                 
             })
