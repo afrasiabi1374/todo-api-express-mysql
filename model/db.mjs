@@ -77,5 +77,23 @@ class Db
             })
         })
     }
+
+    updateTodo(id, title, description){
+        return new Promise(async (resolve, reject) => {
+                    
+            this.#connection.query(`UPDATE todos SET title = '${title}', description = '${description}'  WHERE id = ${id}`,  async(err, results, fields) => {
+                if (err) {
+                    throw err
+                } else if(!results.affectedRows){
+                    reject ('there is no task for update')
+                } else if(results.affectedRows){
+                    resolve('task was updated successfully!')
+                }
+                console.log('The solution is: ', results.affectedRows )
+                // log(data)
+                // this.#connection.end()
+            })
+        })
+    }
 }
 export default new Db()

@@ -88,6 +88,29 @@ class TodoController extends BaseController
             log('error in deleteT function ', err)
         }
     }
+    async updateTodo(req, res){
+        if(!isNaN(req.body.id)){
+            const id = await  req.body.id
+            const title = await  req.body.title
+            const description = await  req.body.description
+            this.#DbTodo.updateTodo(id, title, description).then((resposnse)=>{
+                res.status(200).json({
+                    msg: resposnse,
+                    status: 200
+                })
+            }).catch((e)=>{
+                res.status(404).json({
+                    msg: e,
+                    status: 404
+                })
+            })
+        }else{
+            res.status(400).json({
+                msg: 'bad request',
+                status: 400
+            })
+        }
+    }
 
 }
 export  default new TodoController()

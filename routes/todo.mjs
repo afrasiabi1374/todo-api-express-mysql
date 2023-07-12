@@ -5,5 +5,6 @@ const route = Router()
 route.get('/', TodoController.all)
 route.post('/add', TodoController.add)
 route.delete('/delete', TodoController.deleteTodo)
+route.put('/update', TodoController.updateTodo)
 
 export default route
