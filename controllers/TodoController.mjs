@@ -13,32 +13,35 @@ class TodoController extends BaseController
     async #todoValidation(req){
         await body('description').not().isEmpty().withMessage("description is require !").run(req)
         await body('title').not().isEmpty().withMessage('title is required!').run(req)
+        // YYYY-MM-DD HH:MM dateformat
+        await body('startAt').not().isEmpty().withMessage('title is required!').matches(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/).withMessage('date format wrong startAt').run(req)
+        await body('endAt').not().isEmpty().withMessage('title is required!').matches(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/).withMessage('date format wrong endAt').run(req)
         return validationResult(req)
     }
 
     async add(req, res){
         try {
-            
+            // log(this.#todoValidation(req.req.body.title)?.errors[0]?.msg)
             const result = await this.#todoValidation(req)
-            if (!result.isEmpty) {
-
-                return res.send(result?.errors[0]?.msg)
-                
-            }
-            const title = await req.body.title
-            const description = await  req.body.description
-            if (!title || !description) {
-                console.log(title);
+            log(result)
+            if (result.errors.length) {
+                log(85)
                 res.status(402).json({
                     msg: 'please insert value',
                     status: 402
                 })
+                
             }else{
-                this.#DbTodo.addTodo(title, description)
-                res.status(201).json({
-                    msg: 'todo is added',
-                    status: 201
-                })
+
+                const title = await req.body.title
+                const description = await  req.body.description
+                    console.log(title);
+
+                    this.#DbTodo.addTodo(title, description)
+                    res.status(201).json({
+                        msg: 'todo is added',
+                        status: 201
+                    })
             }
             
 

@@ -46,7 +46,7 @@ class Db
                 try {
                     
                     if (err) {throw err}
-                    console.log('The solution is: ', rows)
+                    // console.log('The solution is: ', rows)
                     log(rows)
                 } catch (error) {
                     
