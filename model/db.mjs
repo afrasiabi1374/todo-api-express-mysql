@@ -27,7 +27,7 @@ class Db
             return new Promise(async (resolve, reject) => {
                     
                 await this.#connection.query('SELECT * FROM todos',  async(err, rows, fields) => {
-                    if (err) {throw err}
+                    if (err) { reject(err)}
                     // console.log('The solution is: ', rows)
                     // log(data)
                     // this.#connection.end()
@@ -47,7 +47,7 @@ class Db
                     
                     if (err) {throw err}
                     console.log('The solution is: ', rows)
-                    this.#connection.end()
+                    log(rows)
                 } catch (error) {
                     
                 }
@@ -59,5 +59,23 @@ class Db
         }
     }
     
+
+    deleteTodo(id){
+        return new Promise(async (resolve, reject) => {
+                    
+            this.#connection.query(`DELETE FROM todos where id = ${id}`,  async(err, results, fields) => {
+                if (err) {
+                    throw err
+                } else if(!results.affectedRows){
+                    reject ('there is no task for delete')
+                } else if(results.affectedRows){
+                    resolve('task was deleted successfully!')
+                }
+                console.log('The solution is: ', results.affectedRows )
+                // log(data)
+                // this.#connection.end()
+            })
+        })
+    }
 }
 export default new Db()

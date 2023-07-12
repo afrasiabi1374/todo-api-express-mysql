@@ -42,9 +42,9 @@ class TodoController extends BaseController
             }
             
 
-        } catch (e) {
+        } catch (err) {
             
-            throw e
+            log('error in add function ', err)
             
         }
     }
@@ -55,10 +55,37 @@ class TodoController extends BaseController
                 // this.setData(result)
                 res.status(200).json(result)
             }).catch((err) => {
-                
+                log('error in all function ', err)
             })
         } catch (e) {
             throw e
+        }
+    }
+
+    async deleteTodo(req, res){
+        try {
+            if(!isNaN(req.body.id)){
+                const id = await  req.body.id
+                this.#DbTodo.deleteTodo(id).then((resposnse)=>{
+                    res.status(200).json({
+                        msg: resposnse,
+                        status: 200
+                    })
+                }).catch((e)=>{
+                    res.status(404).json({
+                        msg: e,
+                        status: 404
+                    })
+                })
+            }else {
+                res.status(400).json({
+                    msg: 'bad request',
+                    status: 400
+                })
+            }
+            
+        } catch (err) {
+            log('error in deleteT function ', err)
         }
     }
 
