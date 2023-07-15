@@ -104,6 +104,7 @@ class TodoController extends BaseController
                 const description = await  req.body.description
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
+                const did = await  req.body.did
                 this.#DbTodo.updateTodo(id, title, description, startAt, endAt).then((resposnse)=>{
                     res.status(200).json({
                         msg: resposnse,
