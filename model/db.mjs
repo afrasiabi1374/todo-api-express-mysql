@@ -39,10 +39,10 @@ class Db
            log(error)
        }
     }
-    addTodo(title, description, startAt, endAt){
+    addTodo(title, description, startAt, endAt, did){
         try {
 
-             this.#connection.query(`INSERT INTO todos (title, description, startAt, endAt) VALUES ('${title}','${description}', '${startAt}','${endAt}')`, (err, rows, fields) => {
+             this.#connection.query(`INSERT INTO todos (title, description, startAt, endAt, did) VALUES ('${title}','${description}', '${startAt}','${endAt}', '${did}')`, (err, rows, fields) => {
                 try {
                     
                     if (err) {throw err}
@@ -78,10 +78,10 @@ class Db
         })
     }
 
-    updateTodo(id, title, description){
+    updateTodo(id, title, description, startAt, endAt){
         return new Promise(async (resolve, reject) => {
                     
-            this.#connection.query(`UPDATE todos SET title = '${title}', description = '${description}'  WHERE id = ${id}`,  async(err, results, fields) => {
+            this.#connection.query(`UPDATE todos SET title = '${title}', description = '${description}', endAt = '${endAt}', startAt = '${startAt}' WHERE id = ${id}`,  async(err, results, fields) => {
                 if (err) {
                     throw err
                 } else if(!results.affectedRows){

@@ -36,9 +36,9 @@ class TodoController extends BaseController
                 const description = await  req.body.description
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
-                    console.log(title);
+                const did = false
 
-                    this.#DbTodo.addTodo(title, description,startAt, endAt)
+                    this.#DbTodo.addTodo(title, description,startAt, endAt, did)
                     res.status(201).json({
                         msg: 'todo is added',
                         status: 201
@@ -93,14 +93,18 @@ class TodoController extends BaseController
         }
     }
     async updateTodo(req, res){
-        if(!isNaN(req.body.id)){
+        let id = Number(req.body.id)
+        if(!isNaN(id)){
             const result = await this.#todoValidation(req)
-            if (result.errors.length) {
+            log(result.errors)
+            if (!result.errors.length) {
                 
                 const id = await  req.body.id
                 const title = await  req.body.title
                 const description = await  req.body.description
-                this.#DbTodo.updateTodo(id, title, description).then((resposnse)=>{
+                const startAt = await  req.body.startAt
+                const endAt = await  req.body.endAt
+                this.#DbTodo.updateTodo(id, title, description, startAt, endAt).then((resposnse)=>{
                     res.status(200).json({
                         msg: resposnse,
                         status: 200
