@@ -78,10 +78,10 @@ class Db
         })
     }
 
-    updateTodo(id, title, description, startAt, endAt){
+    updateTodoDid(id,did){
         return new Promise(async (resolve, reject) => {
                     
-            this.#connection.query(`UPDATE todos SET title = '${title}', description = '${description}', endAt = '${endAt}', startAt = '${startAt}' WHERE id = ${id}`,  async(err, results, fields) => {
+            this.#connection.query(`UPDATE todos SET  did = '${did}' WHERE id = ${id}`,  async(err, results, fields) => {
                 if (err) {
                     throw err
                 } else if(!results.affectedRows){

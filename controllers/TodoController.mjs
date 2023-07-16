@@ -26,7 +26,7 @@ class TodoController extends BaseController
             log(result)
             if (result.errors.length) {
                 res.status(402).json({
-                    msg: 'please insert value',
+                    msg: 'wrong input',
                     status: 402
                 })
                 
@@ -94,18 +94,19 @@ class TodoController extends BaseController
     }
     async updateTodo(req, res){
         let id = Number(req.body.id)
-        if(!isNaN(id)){
-            const result = await this.#todoValidation(req)
-            log(result.errors)
-            if (!result.errors.length) {
-                
+        if(!isNaN(id)){                
                 const id = await  req.body.id
                 const title = await  req.body.title
                 const description = await  req.body.description
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
-                const did =   req.body.did === 1 ? true : false
-                this.#DbTodo.updateTodo(id, title, description, startAt, endAt).then((resposnse)=>{
+                const did =   req.body.did 
+                if (did === true) {
+                    did = 1
+                }else if(did === false){
+                    did = 0
+                }
+                this.#DbTodo.updateTodo(id, title, description, startAt, endAt, did).then((resposnse)=>{
                     res.status(200).json({
                         msg: resposnse,
                         status: 200
@@ -116,12 +117,6 @@ class TodoController extends BaseController
                         status: 404
                     })
                 })
-            }else{
-                res.status(402).json({
-                    msg: 'bad request',
-                    status: 402
-                })
-            }
         }else{
             res.status(400).json({
                 msg: 'bad request',
@@ -130,5 +125,34 @@ class TodoController extends BaseController
         }
     }
 
+
+    async updateTodoDid(req, res){
+        let id = Number(req.body.id)
+        if(!isNaN(id)){                
+
+                const did =   req.body.did 
+                if (did === true) {
+                    did = 1
+                }else if(did === false){
+                    did = 0
+                }
+                this.#DbTodo.updateTodoDid(id,  did).then((resposnse)=>{
+                    res.status(200).json({
+                        msg: resposnse,
+                        status: 200
+                    })
+                }).catch((e)=>{
+                    res.status(404).json({
+                        msg: e,
+                        status: 404
+                    })
+                })
+        }else{
+            res.status(400).json({
+                msg: 'bad request',
+                status: 400
+            })
+        }
+    }
 }
 export  default new TodoController()

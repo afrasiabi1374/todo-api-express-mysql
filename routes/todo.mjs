@@ -6,5 +6,6 @@ route.get('/', TodoController.all)
 route.post('/add', TodoController.add)
 route.delete('/delete', TodoController.deleteTodo)
 route.put('/update', TodoController.updateTodo)
+route.put('/did', TodoController.updateTodoDid)
 
 export default route
