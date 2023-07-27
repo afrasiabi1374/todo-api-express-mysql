@@ -70,7 +70,7 @@ class TodoController extends BaseController
         try {
             if(!isNaN(req.body.id)){
                 const id = await  req.body.id
-                this.#DbTodo.deleteTodo(id).then((resposnse)=>{
+                await this.#DbTodo.deleteTodo(id).then((resposnse)=>{
                     res.status(200).json({
                         msg: resposnse,
                         status: 200
