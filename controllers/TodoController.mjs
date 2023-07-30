@@ -56,7 +56,7 @@ class TodoController extends BaseController
     async all(req, res){
         try {
              this.#DbTodo.allTodos().then((result) => {
-                // this.setData(result)
+                log(result)
                 res.status(200).json(result)
             }).catch((err) => {
                 log('error in all function ', err)
