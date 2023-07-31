@@ -1,7 +1,8 @@
 import { getEnv, isJSON, log, random, sleep } from "./core/utils.mjs";
 import Express from 'express'
 import route from './routes/route.mjs'
-import cors from 'cors'
+import  cors from "cors";
+
 class Application
 {
 
@@ -23,6 +24,7 @@ class Application
             limit: '10mb'
         }))
         this.#app.use(cors())
+
     }
 
     async #initRoute(){

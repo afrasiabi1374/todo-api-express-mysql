@@ -1,6 +1,5 @@
 import { Router } from "express";
 import TodoController from "../controllers/TodoController.mjs";
-import { log } from "../core/utils.mjs";
 import  cors from "cors";
 const route = Router()
 route.get('/', cors() ,TodoController.all)
