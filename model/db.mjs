@@ -16,7 +16,9 @@ class Db
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'dbtodo'
+            database: 'dbtodo',
+            dateStrings: true
+
             })
         this.#connection.connect()
 
