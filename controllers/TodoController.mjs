@@ -23,6 +23,7 @@ class TodoController extends BaseController
         try {
             // log(this.#todoValidation(req.req.body.title)?.errors[0]?.msg)
             const result = await this.#todoValidation(req)
+            log(req.body)
             log(result)
             if (result.errors.length) {
                 res.status(402).json({
@@ -31,13 +32,16 @@ class TodoController extends BaseController
                 })
                 
             }else{
-
+                // const uploader = multer({
+                //     storage: storage
+                // })
                 const title = await req.body.title
                 const description = await  req.body.description
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
                 const did = false
-
+                const img = await req.file.filename
+                log(img)
                     this.#DbTodo.addTodo(title, description,startAt, endAt, did)
                     res.status(201).json({
                         msg: 'todo is added',
@@ -153,6 +157,9 @@ class TodoController extends BaseController
                 status: 400
             })
         }
+    }
+    uploader(){
+
     }
 }
 export  default new TodoController()
