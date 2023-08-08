@@ -7,6 +7,7 @@ import path from "path";
 const storage = multer.diskStorage({
     destination: './src/image/',
     filename: (req, file, cb) => {
+        console.log('file =>>>>', file);
         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
     }
 })

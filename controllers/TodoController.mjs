@@ -40,8 +40,8 @@ class TodoController extends BaseController
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
                 const did = false
-                const img = await req.file.filename
-                log(img)
+                const img = await req.body.image
+                console.log('999',img)
                     this.#DbTodo.addTodo(title, description,startAt, endAt, did)
                     res.status(201).json({
                         msg: 'todo is added',
