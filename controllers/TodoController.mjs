@@ -23,8 +23,6 @@ class TodoController extends BaseController
         try {
             // log(this.#todoValidation(req.req.body.title)?.errors[0]?.msg)
             const result = await this.#todoValidation(req)
-            log(req.body)
-            log(result)
             if (result.errors.length) {
                 res.status(402).json({
                     msg: 'wrong input',
@@ -40,8 +38,8 @@ class TodoController extends BaseController
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
                 const did = false
-                const img = await req.body.image
-                console.log('999',img)
+                const image = await req.body.image
+                console.log('image object =>>>>>>>>', image)
                     this.#DbTodo.addTodo(title, description,startAt, endAt, did)
                     res.status(201).json({
                         msg: 'todo is added',
