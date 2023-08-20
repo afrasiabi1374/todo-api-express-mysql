@@ -134,8 +134,25 @@ class TodoController extends BaseController
         if (mode === 'delete') {            
             const id = req?.body?.id
             const image = req?.body?.image
-            this.#DbTodo.deleteTodoImg(id).then((resposnse)=>{
+            this.#DbTodo.deleteEditTodoImg(id).then((resposnse)=>{
                 fs.unlinkSync('views/public/images/'+image)
+                res.status(200).json({
+                    msg: resposnse,
+                    status: 200
+                })
+            }).catch((e)=>{
+                res.status(404).json({
+                    msg: e,
+                    status: 404
+                })
+            })
+        }else if (mode === 'edit') {            
+            const id = req?.body?.id
+            const lastImage = req?.body?.lastImage
+            this.#DbTodo.deleteEditTodoImg(id, req.image).then((resposnse)=>{
+                if (lastImage) {
+                     fs.unlinkSync('views/public/images/'+lastImage)
+                }
                 res.status(200).json({
                     msg: resposnse,
                     status: 200

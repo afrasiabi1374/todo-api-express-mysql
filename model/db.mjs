@@ -113,9 +113,9 @@ class Db
             })
         })
     }
-    deleteTodoImg(id){
+    deleteEditTodoImg(id, address=null){
         return new Promise(async (resolve, reject) => {
-            this.#connection.query(`UPDATE todos SET   image = '${null}' WHERE id = ${id}`,  async(err, results, fields) => {
+            this.#connection.query(`UPDATE todos SET   image = '${address}' WHERE id = ${id}`,  async(err, results, fields) => {
                 if (err) {
                     throw err
                 } else if(!results.affectedRows){
