@@ -11,11 +11,11 @@ class Application
     {
         this.#initExpress()
         this.#initRoute()
-
     }
 
     async #initExpress(){
         this.#app =  Express()
+        this.#app.use(cors())
         this.#app.use(Express.urlencoded({
             extended: true,
             limit: '10mb'
@@ -23,7 +23,6 @@ class Application
         this.#app.use(Express.json({
             limit: '10mb'
         }))
-        this.#app.use(cors())
 
     }
 

@@ -41,10 +41,10 @@ class Db
            log(error)
        }
     }
-    addTodo(title, description, startAt, endAt, did){
+    addTodo(title, description, startAt, endAt, did, image){
         try {
 
-             this.#connection.query(`INSERT INTO todos (title, description, startAt, endAt, did) VALUES ('${title}','${description}', '${startAt}','${endAt}', '${did}')`, (err, rows, fields) => {
+             this.#connection.query(`INSERT INTO todos (title, description, startAt, endAt, did, image) VALUES ('${title}','${description}', '${startAt}','${endAt}', '${did}', '${image}')`, (err, rows, fields) => {
                 try {
                     
                     if (err) {throw err}
@@ -99,8 +99,23 @@ class Db
     }
     updateTodo(id, title, description, startAt, endAt, did){
         return new Promise(async (resolve, reject) => {
-                    
             this.#connection.query(`UPDATE todos SET   title = '${title}', description = '${description}', startAt = '${startAt}', endAt = '${endAt}', did = '${did}' WHERE id = ${id}`,  async(err, results, fields) => {
+                if (err) {
+                    throw err
+                } else if(!results.affectedRows){
+                    reject ('there is no task for update')
+                } else if(results.affectedRows){
+                    resolve('task was updated successfully!')
+                }
+                console.log('The solution is: ', results.affectedRows )
+                // log(data)
+                // this.#connection.end()
+            })
+        })
+    }
+    deleteTodoImg(id){
+        return new Promise(async (resolve, reject) => {
+            this.#connection.query(`UPDATE todos SET   image = '${null}' WHERE id = ${id}`,  async(err, results, fields) => {
                 if (err) {
                     throw err
                 } else if(!results.affectedRows){

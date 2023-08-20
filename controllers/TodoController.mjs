@@ -2,7 +2,7 @@ import BaseController from "../core/BaseController.mjs";
 import { validationResult, body, query, param, header } from "express-validator";
 import db from "../model/db.mjs";
 import { log } from "../core/utils.mjs";
-
+import fs from 'fs'
 class TodoController extends BaseController
 {
     #DbTodo
@@ -38,9 +38,9 @@ class TodoController extends BaseController
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
                 const did = false
-                const image = await req.body.image
+                const image = await req.image
                 console.log('image object =>>>>>>>>', image)
-                    this.#DbTodo.addTodo(title, description,startAt, endAt, did)
+                    this.#DbTodo.addTodo(title, description,startAt, endAt, did, image)
                     res.status(201).json({
                         msg: 'todo is added',
                         status: 201
@@ -96,13 +96,14 @@ class TodoController extends BaseController
     }
     async updateTodo(req, res){
         let id = Number(req.body.id)
-        if(!isNaN(id)){                
+        if(!isNaN(id)){             
                 const id = await  req.body.id
                 const title = await  req.body.title
                 const description = await  req.body.description
                 const startAt = await  req.body.startAt
                 const endAt = await  req.body.endAt
                 const did =   req.body.did 
+                
                 if (did === true) {
                     did = 1
                 }else if(did === false){
@@ -128,36 +129,24 @@ class TodoController extends BaseController
     }
 
 
-    async updateTodoDid(req, res){
-        let id = Number(req.body.id)
-        if(!isNaN(id)){                
-
-                const did =   req.body.did 
-                if (did === true) {
-                    did = 1
-                }else if(did === false){
-                    did = 0
-                }
-                this.#DbTodo.updateTodoDid(id,  did).then((resposnse)=>{
-                    res.status(200).json({
-                        msg: resposnse,
-                        status: 200
-                    })
-                }).catch((e)=>{
-                    res.status(404).json({
-                        msg: e,
-                        status: 404
-                    })
+    async updateTodoImg(req, res){
+        const mode = req?.body?.mode
+        if (mode === 'delete') {            
+            const id = req?.body?.id
+            const image = req?.body?.image
+            this.#DbTodo.deleteTodoImg(id).then((resposnse)=>{
+                fs.unlinkSync('views/public/images/'+image)
+                res.status(200).json({
+                    msg: resposnse,
+                    status: 200
                 })
-        }else{
-            res.status(400).json({
-                msg: 'bad request',
-                status: 400
+            }).catch((e)=>{
+                res.status(404).json({
+                    msg: e,
+                    status: 404
+                })
             })
         }
-    }
-    uploader(){
-
     }
 }
 export  default new TodoController()
