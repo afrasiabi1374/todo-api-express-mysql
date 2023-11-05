@@ -1,0 +1,50 @@
+apt update
+apt install redis-server
+nano /etc/redis/redis.conf
+systemctl restart redis.service
+systemctl start redis.service
+systemctl stop redis.service
+systemctl status redis.service
+
+apt install git curl wget nano -y
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+close terminal and open new terminal
+
+wget http://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+tar xvf make-4.3.tar.gz
+cd make-4.3/
+./configure
+make -j 8
+make install
+mv /usr/bin/make /usr/bin/make_old
+ln -s /usr/local/bin/make /usr/bin/make
+make --version
+gcc --version => 10
+g++ --version => 10
+
+apt-get -y install clang-13 # 22.04
+git clone https://github.com/RedisJSON/RedisJSON
+cd RedisJSON
+echo '' > deps/readies/bin/getclang # -> 22.04
+make setup
+make -j 8
+cd bin/linux-x64-release
+cp rejson.so  /etc/redis/
+nano /etc/redis/redis.conf
+loadmodule /etc/redis/rejson.so
+systemctl stop redis
+systemctl start redis
+
+git clone --recursive https://github.com/RediSearch/RediSearch.git
+cd RediSearch
+make setup
+make all
+cp ./bin/linux-x64-release/search/redisearch.so  /etc/redis/
+nano /etc/redis/redis.conf
+loadmodule /etc/redis/redisearch.so
+systemctl stop redis
+systemctl start redis
+
+
