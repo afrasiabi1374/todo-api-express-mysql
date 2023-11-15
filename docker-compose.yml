@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    nodeapp:
+        container_name : nodeapp
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        volumes:
+            - /home/media:/app/media
+        ports:
+            - "9090:5000"
+        networks:
+            - my-app-net
+        env_file:
+            - ./.env
+    mongodb:
+        image: mongo:4.4
+        networks:
+            - my-app-net
+        volumes:
+            - /home/mongodb_data:/data/db
+    redis:
+        image: redislabs/redisearch
+        volumes:
+            - /home/redis_data:/data
+        networks:
+            - my-app-net
+
+networks:
+    my-app-net:
+        driver: bridge
+        ipam:
+            config:
+            - subnet: "20.1.0.0/16"
+
+
+
